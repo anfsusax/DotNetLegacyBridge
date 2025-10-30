@@ -141,14 +141,23 @@ namespace GET.WebForms
                     txtNome.Text = cliente.Nome;
                     txtCpf.Text = cliente.Cpf;
                     txtRg.Text = cliente.Rg;
-                    ddlSexo.SelectedValue = cliente.Sexo;
-                    ddlEstadoCivil.SelectedValue = cliente.EstadoCivil;
-                    txtDataNascimento.Text = cliente.DataNascimento.ToString("yyyy-MM-dd");
+
+                    // Garantir itens antes de selecionar valores vindos do banco
+                    EnsureListItem(ddlSexo, cliente.Sexo);
+                    EnsureListItem(ddlEstadoCivil, cliente.EstadoCivil);
+                    EnsureListItem(ddlUf, cliente.Uf);
+
+                    ddlSexo.SelectedValue = cliente.Sexo ?? string.Empty;
+                    ddlEstadoCivil.SelectedValue = cliente.EstadoCivil ?? string.Empty;
+                    txtDataNascimento.Text = cliente.DataNascimento != DateTime.MinValue ? cliente.DataNascimento.ToString("yyyy-MM-dd") : string.Empty;
                     txtCep.Text = cliente.Cep;
                     txtRua.Text = cliente.Logradouro;
                     txtNumero.Text = cliente.Numero;
                     txtBairro.Text = cliente.Bairro;
-                    ddlUf.SelectedValue = cliente.Uf;
+                    ddlUf.SelectedValue = cliente.Uf ?? string.Empty;
+
+                    // Abrir modal de edição no front-end
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openClienteModal", "var m=new bootstrap.Modal(document.getElementById('clienteModal'));m.show();", true);
                 }
             }
 
@@ -158,6 +167,16 @@ namespace GET.WebForms
                 serviceCliente.Excluir(Id);
                 ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Cliente excluído com sucesso!');", true);
                 CarregarClientes();
+            }
+        }
+
+        private static void EnsureListItem(ListControl list, string value)
+        {
+            if (list == null) return;
+            var val = value ?? string.Empty;
+            if (list.Items.FindByValue(val) == null)
+            {
+                list.Items.Add(new ListItem(val, val));
             }
         }
     }
