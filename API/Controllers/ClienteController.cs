@@ -1,8 +1,6 @@
 ﻿
 using GTI.API.Models;
-using GTI.BL;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
+using GTI.Wcf;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -13,64 +11,62 @@ namespace API.Controllers
 {
     public class ClienteController : ApiController
     {
-        // GET api/cliente
-        [Route("cliente-get")]
+        // GET cliente-get
         public IEnumerable<Cliente> Get()
         {
-            ClienteBL clienteBL = new ClienteBL();
+            var service = new ServiceCliente();
             IEnumerable<Cliente> clientes = new List<Cliente>();
-            clientes = clienteBL.Listar();
+            clientes = service.Listar();
             return clientes;
         }
 
-        // GET api/cliente/5
-        [Route("cliente-get{id}")]
+        // GET cliente-get{id}
         public Cliente Get(int id)
         {
-            ClienteBL clienteBL = new ClienteBL();
-
-            return clienteBL.Obter(id); ;
+            var service = new ServiceCliente();
+            return service.Obter(id);
         }
 
-        // POST api/values
-        [Route("cliente-post")]
+        // POST cliente-post
         public HttpResponseMessage Post([System.Web.Http.FromBody]Cliente cliente)
         {
-            ClienteBL clienteBL = new ClienteBL();
-            clienteBL.Iserir(cliente);
+            var service = new ServiceCliente();
+            var id = service.Incluir(cliente);
+            cliente.Id = id;
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
             string location = Url.Link("DefaultApi", new { controller = "cliente", id = cliente.Id });
             response.Headers.Location = new Uri(location) ;
             return response;
         }
 
-        // PUT api/values/5
-        [Route("cliente-Put{id}")]
-        public HttpResponseMessage Put(Cliente cli, [System.Web.Http.FromBody]Cliente cliente)
+        // PUT cliente-Put{id}
+        public HttpResponseMessage Put(int id, [System.Web.Http.FromBody]Cliente cliente)
         {
-            ClienteBL clienteBL = new ClienteBL();
-
-            clienteBL.Atualizar(cli);
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-            string location = Url.Link("DefaultApi", new { controller = "cliente", id = cliente.Id });
+            var service = new ServiceCliente();
+            if (cliente == null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Corpo da requisição ausente.");
+            }
+            cliente.Id = id;
+            service.Alterar(cliente);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            string location = Url.Link("DefaultApi", new { controller = "cliente", id = id });
             response.Headers.Location = new Uri(location);
             return response;
         }
 
-        //DELETE api/values/5
+        // DELETE cliente-delete{id}
         /// <summary>
         ///DELETE
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Route("cliente-delete{id}")]
         public HttpResponseMessage Delete(int id, [System.Web.Http.FromBody]Cliente cliente)
         {
-            ClienteBL clienteBL = new ClienteBL();
-
-            clienteBL.Excluir(id);
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created);
-            string location = Url.Link("DefaultApi", new { controller = "cliente", id = cliente.Id });
+            var service = new ServiceCliente();
+            service.Excluir(id);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
+            string location = Url.Link("DefaultApi", new { controller = "cliente", id = id });
             response.Headers.Location = new Uri(location);
             return response;
         }

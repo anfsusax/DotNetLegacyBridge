@@ -364,6 +364,10 @@
       <Project>{86ffbe80-a9af-4683-8bfd-517b7357a22e}</Project>
       <Name>GTI.BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GTI.Wcf\GTI.Wcf.csproj">
+      <Project>{00000000-0000-0000-0000-000000000000}</Project>
+      <Name>GTI.Wcf</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

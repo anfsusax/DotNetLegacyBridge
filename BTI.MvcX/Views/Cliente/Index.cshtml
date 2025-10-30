@@ -4,46 +4,39 @@
     ViewBag.Title = "Index";
 }
 
-<div ="container">
-    <h2>Clientes Cadastrados</h2>
-    <div class="e=">
-        <table class="table font">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cpf)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rg)
-                </th>
-                <th>
-                    Ações
-                </th>
-            </tr>
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h2 class="m-0">Clientes</h2>
+    <a href="@Url.Action("Adicionar","Cliente")" class="btn btn-primary">+ Novo Cliente</a>
+</div>
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cpf)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rg)
-                    </td>
-                    <td>
-                        <a href="FormAlterar/@item.Id" Class="btn btn-secondary">Editar</a>
-                        <a href="Detalhes/@item.Id" Class="btn btn-secondary">Detalhes</a>
-                        <a href="FormExcluir/@item.Id" Class="btn btn-danger">Excluir</a>
-                    </td>
-                </tr>
-            }
-        </table>
-        <a href="Form" Class="btn btn-success">Inserir novo Cliente</a>
-        <a href="Home" Class="btn btn-primary">Voltar para página Inicial</a>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Nome)</th>
+                        <th>@Html.DisplayNameFor(model => model.Cpf)</th>
+                        <th>@Html.DisplayNameFor(model => model.Rg)</th>
+                        <th style="width:220px">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Cpf)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Rg)</td>
+                        <td>
+                            <a href="@Url.Action("UpdateCliente","Cliente", new { id = item.Id })" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                            <a href="@Url.Action("Detalhes","Cliente", new { id = item.Id })" class="btn btn-sm btn-outline-secondary me-1">Detalhes</a>
+                            <a href="@Url.Action("Delete","Cliente", new { id = item.Id })" class="btn btn-sm btn-outline-danger">Excluir</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
