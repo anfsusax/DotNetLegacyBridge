@@ -126,62 +126,54 @@ namespace GTI.DAO
         #region Listar
         public List<Cliente> Listar()
         {
-            SqlConnection con = null;
-            List<Cliente> lstCliente = null;
+            List<Cliente> lstCliente = new List<Cliente>();
 
-            try
+            string strConexao = ConfigurationManager.ConnectionStrings["conAlex"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(strConexao))
+            using (SqlCommand cmd = new SqlCommand("sp_GetClientes", con))
             {
-                string strConexao = ConfigurationManager.ConnectionStrings["conAlex"].ConnectionString;
-
-
-                con = new SqlConnection(strConexao);
+                cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("sp_GetClientes", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataReader radClientes = cmd.ExecuteReader();
-                lstCliente = new List<Cliente>();
-
-
-                while (radClientes.Read())
+                using (SqlDataReader radClientes = cmd.ExecuteReader())
                 {
-                    Cliente cliente = new Cliente
+                    while (radClientes.Read())
                     {
-                        Id = Convert.ToInt32(radClientes["Id"]),
-                        Nome = (string)radClientes["Nome"],
-                        Cpf = (string)radClientes["Cpf"],
-                        Rg = (string)(radClientes["Rg"]),
-                        OrgaoExpedicao = (string)(radClientes["UfExpedicao"]),
-                        UfExpedicao = (string)radClientes["UfExpedicao"],
-                        Sexo = (string)radClientes["Sexo"],
-                        EstadoCivil = (string)radClientes["EstadoCivil"],
-                        DataNascimento = Convert.ToDateTime(radClientes["DataNascimento"]),
-                        DataExpedicao = Convert.ToDateTime(radClientes["DataExpedicao"]),
+                        Cliente cliente = new Cliente
+                        {
+                            Id = radClientes["ClienteID"] != DBNull.Value ? Convert.ToInt32(radClientes["ClienteID"]) : 0,
+                            Nome = radClientes["Nome"] as string ?? string.Empty,
+                            Cpf = radClientes["CPF"] as string ?? string.Empty,
+                            Rg = radClientes["RG"] as string ?? string.Empty,
+                            OrgaoExpedicao = radClientes["OrgaoExpedicao"] as string ?? string.Empty,
+                            UfExpedicao = radClientes["UfCliente"] as string ?? string.Empty,
+                            Sexo = radClientes["Sexo"] as string ?? string.Empty,
+                            EstadoCivil = radClientes["EstadoCivil"] as string ?? string.Empty,
+                            DataNascimento = radClientes["DataNascimento"] != DBNull.Value
+                                                ? Convert.ToDateTime(radClientes["DataNascimento"])
+                                                : DateTime.MinValue,
+                            DataExpedicao = radClientes["DataExpedicao"] != DBNull.Value
+                                                ? Convert.ToDateTime(radClientes["DataExpedicao"])
+                                                : DateTime.MinValue,
 
+                            Logradouro = radClientes["Logradouro"] as string ?? string.Empty,
+                            Complemento = radClientes["Complemento"] as string ?? string.Empty,
+                            Numero = radClientes["Numero"] as string ?? string.Empty,
+                            Bairro = radClientes["Bairro"] as string ?? string.Empty,
+                            Cidade = radClientes["Cidade"] as string ?? string.Empty,
+                            Cep = radClientes["CEP"] as string ?? string.Empty,
+                            Uf = radClientes["UfEndereco"] as string ?? string.Empty,
+                        };
 
-                        Logradouro = (string)radClientes["Endereco"],
-                        Complemento = (string)radClientes["Complemento"],
-                        Numero = (string)radClientes["Numero"],
-                        Bairro = (string)radClientes["Bairro"],
-                        Cidade = (string)radClientes["Cidade"],
-                        Cep = (string)radClientes["Cep"],
-                        Uf = (string)radClientes["Uf"],
-                    };
-
-
-                    lstCliente.Add(cliente);
+                        lstCliente.Add(cliente);
+                    }
                 }
-
-            }
-            finally
-            {
-                if (con != null)
-                    con.Close();
             }
 
             return lstCliente;
         }
+
         #endregion
         //---------------------------------------------------------------------------------------
         #region Obter
