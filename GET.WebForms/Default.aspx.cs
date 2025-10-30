@@ -66,6 +66,12 @@ namespace GET.WebForms
             var ctiBr = new CultureInfo("pt-BR");
             var cliente = new Cliente();
 
+            if (!Page.IsValid)
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "validationErro", "showModalMessage('Validação', 'Existem erros de validação. Verifique os campos destacados.', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
+                return;
+            }
+
             cliente.Id = Id;
             cliente.Nome = txtNome.Text.Trim();
             cliente.Cpf = txtCpf.Text.Trim();
@@ -93,12 +99,12 @@ namespace GET.WebForms
                 if (cliente.Id == 0)
                 {
                     serviceCliente.Incluir(cliente);
-                    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Cliente cadastrado com sucesso!');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoCad", "showModalMessage('Sucesso', 'Cliente cadastrado com sucesso!', 'success');", true);
                 }
                 else
                 {
                     serviceCliente.Alterar(cliente);
-                    ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Cliente atualizado com sucesso!');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoAlt", "showModalMessage('Sucesso', 'Cliente atualizado com sucesso!', 'success');", true);
                 }
 
                 LimparCampos();
@@ -106,7 +112,8 @@ namespace GET.WebForms
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "erro", $"alert('Erro ao salvar: {ex.Message}');", true);
+                var msg = ex.Message.Replace("'", "\u0027");
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "erroSalvar", $"showModalMessage('Erro', 'Erro ao salvar: {msg}', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
             }
         }
 
@@ -165,7 +172,7 @@ namespace GET.WebForms
             {
                 Id = Convert.ToInt32(e.CommandArgument);
                 serviceCliente.Excluir(Id);
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Cliente excluído com sucesso!');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoDel", "showModalMessage('Sucesso', 'Cliente excluído com sucesso!', 'success');", true);
                 CarregarClientes();
             }
         }

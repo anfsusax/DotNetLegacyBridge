@@ -146,6 +146,36 @@
             })();
         </script>
 
+        <script type="text/javascript">
+            // Modal message helper (success | error | info)
+            window.showModalMessage = function (title, message, variant) {
+                var modalEl = document.getElementById('actionModal');
+                if (!modalEl) return;
+                var header = modalEl.querySelector('.modal-header');
+                var titleEl = document.getElementById('actionModalTitle');
+                var bodyEl = document.getElementById('actionModalBody');
+                var confirmBtn = document.getElementById('actionModalConfirm');
+
+                if (titleEl) titleEl.textContent = title || '';
+                if (bodyEl) bodyEl.innerHTML = '<div class="py-2">' + (message || '') + '</div>';
+
+                if (header) {
+                    header.classList.remove('bg-gradient-primary', 'bg-success', 'bg-danger');
+                    if (variant === 'success') header.classList.add('bg-success', 'text-white');
+                    else if (variant === 'error') header.classList.add('bg-danger', 'text-white');
+                    else header.classList.add('bg-gradient-primary', 'text-white');
+                }
+
+                if (confirmBtn) {
+                    confirmBtn.classList.remove('btn-primary', 'btn-danger', 'btn-success');
+                    confirmBtn.style.display = 'none';
+                }
+
+                var m = new bootstrap.Modal(modalEl);
+                m.show();
+            };
+        </script>
+
     </form>
 </body>
 </html>
