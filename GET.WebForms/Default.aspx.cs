@@ -57,8 +57,18 @@ namespace GET.WebForms
 
         public int Id
         {
-            get => ViewState["Id"] != null ? (int)ViewState["Id"] : 0;
-            set => ViewState["Id"] = value;
+            get
+            {
+                // Preferir HiddenField quando disponível para garantir persistência no postback
+                if (!string.IsNullOrWhiteSpace(hdnId.Value) && int.TryParse(hdnId.Value, out int hid))
+                    return hid;
+                return ViewState["Id"] != null ? (int)ViewState["Id"] : 0;
+            }
+            set
+            {
+                ViewState["Id"] = value;
+                hdnId.Value = value.ToString();
+            }
         }
 
         protected void btnSalvar_Click(object sender, EventArgs e)
@@ -79,11 +89,15 @@ namespace GET.WebForms
             cliente.Sexo = ddlSexo.SelectedValue;
             cliente.EstadoCivil = ddlEstadoCivil.SelectedValue;
 
-            // Data de nascimento
+            // Data de nascimento (obrigatória)
             if (DateTime.TryParse(txtDataNascimento.Text, ctiBr, DateTimeStyles.None, out DateTime dataNasc))
                 cliente.DataNascimento = dataNasc;
             else
+            {
                 cliente.DataNascimento = DateTime.MinValue;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "dtInvalida", "showModalMessage('Validação', 'Informe uma data de nascimento válida.', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
+                return;
+            }
 
             // Endereço
             cliente.Cep = txtCep.Text.Trim();
@@ -175,6 +189,15 @@ namespace GET.WebForms
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoDel", "showModalMessage('Sucesso', 'Cliente excluído com sucesso!', 'success');", true);
                 CarregarClientes();
             }
+        }
+
+        protected void btnNovo_Click(object sender, EventArgs e)
+        {
+            LimparCampos();
+            // Garante estado de novo cadastro
+            Id = 0;
+            // Abre o modal de cliente
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openNovoCliente", "var m=new bootstrap.Modal(document.getElementById('clienteModal'));m.show();", true);
         }
 
         private static void EnsureListItem(ListControl list, string value)

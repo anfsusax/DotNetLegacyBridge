@@ -47,7 +47,7 @@
                 <p class="page-subtitle mb-0">Cadastre, edite e gerencie seus clientes com rapidez.</p>
             </div>
             <div>
-                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#clienteModal">+ Novo Cliente</button>
+                <asp:Button ID="btnNovo" runat="server" CssClass="btn btn-light btn-lg" Text="+ Novo Cliente" OnClick="btnNovo_Click" />
             </div>
         </div>
     </section>
@@ -58,7 +58,7 @@
         <div class="card shadow-soft w-100" style="max-width: 1080px;">
             <div class="card-header bg-gradient-primary text-white d-flex justify-content-between align-items-center">
                 <span class="fw-semibold">Lista de Clientes</span>
-                <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#clienteModal">Novo</button>
+                <asp:Button ID="btnNovoTop" runat="server" CssClass="btn btn-light btn-sm" Text="Novo" OnClick="btnNovo_Click" />
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -94,6 +94,7 @@
                 </div>
                 <div class="modal-body p-4">
                     <div class="container-fluid">
+                        <asp:HiddenField ID="hdnId" runat="server" />
                         <asp:ValidationSummary ID="ValidationSummaryModal" ValidationGroup="Cliente" runat="server" CssClass="alert alert-danger" />
                         <div class="row mb-2">
                             <div class="col-md-3">

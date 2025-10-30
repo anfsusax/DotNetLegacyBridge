@@ -20,23 +20,23 @@ namespace GTI.DAO
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
-                    cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf);
-                    cmd.Parameters.AddWithValue("@Rg", cliente.Rg);
-                    cmd.Parameters.AddWithValue("@OrgaoExpedicao", cliente.OrgaoExpedicao);
-                    cmd.Parameters.AddWithValue("@UfExpedicao", cliente.UfExpedicao);
-                    cmd.Parameters.AddWithValue("@Sexo", cliente.Sexo);
-                    cmd.Parameters.AddWithValue("@EstadoCivil", cliente.EstadoCivil);
-                    cmd.Parameters.AddWithValue("@DataNascimento", cliente.DataNascimento);
-                    cmd.Parameters.AddWithValue("@DataExpedicao", cliente.DataExpedicao);
+                    cmd.Parameters.AddWithValue("@Nome", cliente.Nome ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Rg", cliente.Rg ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@OrgaoExpedicao", (object)(cliente.OrgaoExpedicao ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@UfExpedicao", (object)(cliente.UfExpedicao ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@Sexo", cliente.Sexo ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@EstadoCivil", cliente.EstadoCivil ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@DataNascimento", cliente.DataNascimento == DateTime.MinValue ? (object)DBNull.Value : cliente.DataNascimento);
+                    cmd.Parameters.AddWithValue("@DataExpedicao", cliente.DataExpedicao == DateTime.MinValue ? (object)DBNull.Value : cliente.DataExpedicao);
 
-                    cmd.Parameters.AddWithValue("@Endereco", cliente.Logradouro);
-                    cmd.Parameters.AddWithValue("@Complemento", cliente.Complemento);
-                    cmd.Parameters.AddWithValue("@Numero", cliente.Numero);
-                    cmd.Parameters.AddWithValue("@Bairro", cliente.Bairro);
-                    cmd.Parameters.AddWithValue("@Cep", cliente.Cep);
-                    cmd.Parameters.AddWithValue("@Cidade", cliente.Cidade);
-                    cmd.Parameters.AddWithValue("@Uf", cliente.Uf);
+                    cmd.Parameters.AddWithValue("@Endereco", cliente.Logradouro ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Complemento", (object)(cliente.Complemento ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@Numero", cliente.Numero ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Bairro", cliente.Bairro ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cep", cliente.Cep ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cidade", cliente.Cidade ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Uf", cliente.Uf ?? string.Empty);
 
                     id = Convert.ToInt32(cmd.ExecuteScalar());
                 }
@@ -56,23 +56,23 @@ namespace GTI.DAO
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@ClienteID", cliente.Id);
-                    cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
-                    cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf);
-                    cmd.Parameters.AddWithValue("@Rg", cliente.Rg);
-                    cmd.Parameters.AddWithValue("@OrgaoExpedicao", cliente.OrgaoExpedicao);
-                    cmd.Parameters.AddWithValue("@UfExpedicao", cliente.UfExpedicao);
-                    cmd.Parameters.AddWithValue("@Sexo", cliente.Sexo);
-                    cmd.Parameters.AddWithValue("@EstadoCivil", cliente.EstadoCivil);
-                    cmd.Parameters.AddWithValue("@DataNascimento", cliente.DataNascimento);
-                    cmd.Parameters.AddWithValue("@DataExpedicao", cliente.DataExpedicao);
+                    cmd.Parameters.AddWithValue("@Nome", cliente.Nome ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Rg", cliente.Rg ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@OrgaoExpedicao", (object)(cliente.OrgaoExpedicao ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@UfExpedicao", (object)(cliente.UfExpedicao ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@Sexo", cliente.Sexo ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@EstadoCivil", cliente.EstadoCivil ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@DataNascimento", cliente.DataNascimento == DateTime.MinValue ? (object)DBNull.Value : cliente.DataNascimento);
+                    cmd.Parameters.AddWithValue("@DataExpedicao", cliente.DataExpedicao == DateTime.MinValue ? (object)DBNull.Value : cliente.DataExpedicao);
 
-                    cmd.Parameters.AddWithValue("@Endereco", cliente.Logradouro);
-                    cmd.Parameters.AddWithValue("@Complemento", cliente.Complemento);
-                    cmd.Parameters.AddWithValue("@Numero", cliente.Numero);
-                    cmd.Parameters.AddWithValue("@Bairro", cliente.Bairro);
-                    cmd.Parameters.AddWithValue("@Cidade", cliente.Cidade);
-                    cmd.Parameters.AddWithValue("@Cep", cliente.Cep);
-                    cmd.Parameters.AddWithValue("@Uf", cliente.Uf);
+                    cmd.Parameters.AddWithValue("@Endereco", cliente.Logradouro ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Complemento", (object)(cliente.Complemento ?? string.Empty));
+                    cmd.Parameters.AddWithValue("@Numero", cliente.Numero ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Bairro", cliente.Bairro ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cidade", cliente.Cidade ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Cep", cliente.Cep ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Uf", cliente.Uf ?? string.Empty);
 
                     cmd.ExecuteNonQuery();
                 }
