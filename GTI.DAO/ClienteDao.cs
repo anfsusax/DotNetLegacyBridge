@@ -23,7 +23,7 @@ namespace GTI.DAO
                 con.Open();
 
 
-                SqlCommand cmd = new SqlCommand("USP_I_CLIENTE", con);
+                SqlCommand cmd = new SqlCommand("sp_InsertCliente", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 
                 cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
@@ -66,7 +66,7 @@ namespace GTI.DAO
                 con = new SqlConnection(strConexao);
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("USP_U_CLIENTE", con);
+                SqlCommand cmd = new SqlCommand("sp_UpdateCliente", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cliente.Id);
                 cmd.Parameters.AddWithValue("@Nome", cliente.Nome);
@@ -109,7 +109,7 @@ namespace GTI.DAO
                 con = new SqlConnection(strConexao);
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("USP_D_CLIENTE", con);
+                SqlCommand cmd = new SqlCommand("sp_DeleteCliente", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", id);
 
@@ -137,7 +137,7 @@ namespace GTI.DAO
                 con = new SqlConnection(strConexao);
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("USP_L_CLIENTE", con);
+                SqlCommand cmd = new SqlCommand("sp_GetClientes", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlDataReader radClientes = cmd.ExecuteReader();
@@ -196,7 +196,7 @@ namespace GTI.DAO
                 con = new SqlConnection(strConexao);
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand("USP_O_CLIENTE", con);
+                SqlCommand cmd = new SqlCommand("sp_GetClienteId", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("id", id);
 

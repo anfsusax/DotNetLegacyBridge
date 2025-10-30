@@ -356,11 +356,11 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\1\GTEI.Model\GTI.Model.csproj">
+    <ProjectReference Include="..\GTEI.Model\GTI.Model.csproj">
       <Project>{35e865b5-de52-4cf2-8113-3424b142e514}</Project>
       <Name>GTI.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\1\GTI.BL\GTI.BL.csproj">
+    <ProjectReference Include="G:\gti\1\GTI.BL\GTI.BL.csproj">
       <Project>{86ffbe80-a9af-4683-8bfd-517b7357a22e}</Project>
       <Name>GTI.BL</Name>
     </ProjectReference>
