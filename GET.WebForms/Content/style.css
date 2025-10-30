@@ -40,6 +40,16 @@
     vertical-align: middle;
 }
 
+/* Modal polish */
+.modal-enhanced{ box-shadow: 0 20px 60px rgba(2,6,23,.18); }
+.modal-enhanced .modal-header{ border-bottom: 0; padding: 16px 20px; }
+.modal-enhanced .modal-body{ padding: 20px; }
+.modal-enhanced .modal-footer{ border-top: 0; padding: 16px 20px; }
+.modal-content.rounded-4{ border-radius: 1rem !important; }
+.form-section-title{ text-transform: uppercase; font-size: .75rem; letter-spacing: .08em; }
+.form-label{ font-size: .92rem; }
+.form-control, .form-select{ min-height: 42px; }
+
 /* Hero header */
 .page-hero{
     background: linear-gradient(90deg, rgba(29,78,216,.9) 0%, rgba(37,99,235,.9) 60%, rgba(59,130,246,.9) 100%), url('../Content/img/heroAccent.png');

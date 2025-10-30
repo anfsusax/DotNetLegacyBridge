@@ -83,17 +83,21 @@
 
     <!-- Modal: Cliente (Novo/Editar) -->
     <div class="modal fade" id="clienteModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Cadastro de Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content modal-enhanced rounded-4 border-0">
+                <div class="modal-header bg-gradient-primary text-white">
+                    <div>
+                        <h5 class="modal-title mb-0">Cadastro de Cliente</h5>
+                        <small class="opacity-75">Preencha os dados do cliente</small>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div class="container-fluid">
+                        <asp:ValidationSummary ID="ValidationSummaryModal" ValidationGroup="Cliente" runat="server" CssClass="alert alert-danger" />
                         <div class="row mb-2">
                             <div class="col-md-3">
-                                <label for="txtCpf">CPF*</label>
+                                <label for="txtCpf" class="form-label fw-semibold">CPF*</label>
                                 <asp:TextBox ID="txtCpf" CssClass="form-control" runat="server" 
                                     onkeypress="aplicarMascara(this, mascaraCPF)" MaxLength="14" placeholder="000.000.000-00"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCpf" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
@@ -101,7 +105,7 @@
                             </div>
 
                             <div class="col-md-9">
-                                <label for="txtNome">Nome*</label>
+                                <label for="txtNome" class="form-label fw-semibold">Nome*</label>
                                 <asp:TextBox ID="txtNome" CssClass="form-control" runat="server" placeholder="Digite o nome completo"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtNome" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
@@ -109,17 +113,17 @@
 
                         <div class="row mb-2">
                             <div class="col-md-3">
-                                <label for="txtRg">RG*</label>
+                                <label for="txtRg" class="form-label fw-semibold">RG*</label>
                                 <asp:TextBox ID="txtRg" CssClass="form-control" runat="server" placeholder="RG"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRg" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
                             <div class="col-md-3">
-                                <label for="txtDataNascimento">Nascimento*</label>
+                                <label for="txtDataNascimento" class="form-label fw-semibold">Nascimento*</label>
                                 <asp:TextBox ID="txtDataNascimento" type="date" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtDataNascimento" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
                             <div class="col-md-3">
-                                <label for="ddlSexo">Sexo*</label>
+                                <label for="ddlSexo" class="form-label fw-semibold">Sexo*</label>
                                 <asp:DropDownList ID="ddlSexo" CssClass="form-select" runat="server">
                                     <asp:ListItem>Selecione</asp:ListItem>
                                     <asp:ListItem>Masculino</asp:ListItem>
@@ -129,7 +133,7 @@
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="ddlSexo" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
                             <div class="col-md-3">
-                                <label for="ddlEstadoCivil">Estado Civil*</label>
+                                <label for="ddlEstadoCivil" class="form-label fw-semibold">Estado Civil*</label>
                                 <asp:DropDownList ID="ddlEstadoCivil" CssClass="form-select" runat="server">
                                     <asp:ListItem>Selecione</asp:ListItem>
                                     <asp:ListItem>Solteiro(a)</asp:ListItem>
@@ -142,29 +146,29 @@
                         </div>
 
                         <hr />
-                        <h6 class="mb-2 text-secondary">Endereço</h6>
+                        <h6 class="mb-3 text-secondary form-section-title">Endereço</h6>
 
                         <div class="row mb-2">
                             <div class="col-md-2">
-                                <label for="txtCep">CEP*</label>
+                                <label for="txtCep" class="form-label fw-semibold">CEP*</label>
                                 <asp:TextBox ID="txtCep" CssClass="form-control" runat="server" placeholder="00000-000"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtCep" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
                             <div class="col-md-4">
-                                <label for="txtRua">Rua*</label>
+                                <label for="txtRua" class="form-label fw-semibold">Rua*</label>
                                 <asp:TextBox ID="txtRua" CssClass="form-control" runat="server"></asp:TextBox>
                                 <asp:RequiredFieldValidator runat="server" ControlToValidate="txtRua" ErrorMessage="Obrigatório" ForeColor="Red" ValidationGroup="Cliente" />
                             </div>
                             <div class="col-md-2">
-                                <label for="txtNumero">Número*</label>
+                                <label for="txtNumero" class="form-label fw-semibold">Número*</label>
                                 <asp:TextBox ID="txtNumero" CssClass="form-control" runat="server"></asp:TextBox>
                             </div>
                             <div class="col-md-2">
-                                <label for="txtBairro">Bairro*</label>
+                                <label for="txtBairro" class="form-label fw-semibold">Bairro*</label>
                                 <asp:TextBox ID="txtBairro" CssClass="form-control" runat="server"></asp:TextBox>
                             </div>
                             <div class="col-md-2">
-                                <label for="ddlUf">UF*</label>
+                                <label for="ddlUf" class="form-label fw-semibold">UF*</label>
                                 <asp:DropDownList ID="ddlUf" CssClass="form-select" runat="server">
                                     <asp:ListItem>Selecione</asp:ListItem>
                                     <asp:ListItem>SP</asp:ListItem>
@@ -178,9 +182,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <asp:Button ID="btnSalvar" runat="server" CssClass="btn btn-success px-4" Text="Salvar" ValidationGroup="Cliente" OnClick="btnSalvar_Click" />
+                <div class="modal-footer bg-light-subtle d-flex justify-content-between">
+                    <span class="small text-muted">Campos marcados com * são obrigatórios</span>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnSalvar" runat="server" CssClass="btn btn-success px-4" Text="Salvar" ValidationGroup="Cliente" OnClick="btnSalvar_Click" />
+                    </div>
                 </div>
             </div>
         </div>

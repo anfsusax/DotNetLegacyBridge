@@ -66,16 +66,22 @@
         <!-- Action Modal -->
         <div class="modal fade" id="actionModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="actionModalTitle">Ação</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content modal-enhanced rounded-4 border-0">
+                    <div class="modal-header bg-gradient-primary text-white">
+                        <div>
+                            <h5 class="modal-title mb-0" id="actionModalTitle">Ação</h5>
+                            <small class="opacity-75">Confirme para continuar</small>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="actionModalBody">
+                    <div class="modal-body p-4" id="actionModalBody">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" id="actionModalConfirm">Confirmar</button>
+                    <div class="modal-footer bg-light-subtle d-flex justify-content-between">
+                        <span class="small text-muted">Revise antes de confirmar</span>
+                        <div>
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" class="btn btn-primary" id="actionModalConfirm">Confirmar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,16 +90,16 @@
         <!-- Confirm Modal (Reutilizável) -->
         <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirmação</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content modal-enhanced rounded-4 border-0">
+                    <div class="modal-header bg-gradient-primary text-white">
+                        <h5 class="modal-title mb-0">Confirmação</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body p-4">
                         <p id="confirmModalMessage" class="mb-0">Tem certeza desta ação?</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <div class="modal-footer bg-light-subtle">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-danger" id="confirmModalConfirm">Confirmar</button>
                     </div>
                 </div>
