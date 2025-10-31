@@ -1,6 +1,4 @@
-﻿
-
-using GTI.API.Models;
+﻿using GTI.API.Models;
 using GTI.Wcf;
 using System;
 using System.Globalization;
@@ -11,107 +9,126 @@ namespace GET.WebForms
 {
     public partial class _Default : Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            CarregarClientes();
-            CarregarDropDownLists();
+            if (!IsPostBack)
+            {
+                CarregarClientes();
+                CarregarDropDownLists();
+            }
         }
+
         private void CarregarClientes()
         {
-            ServiceCliente serviceCliente = new ServiceCliente();
+            var serviceCliente = new ServiceCliente();
             var clientes = serviceCliente.Listar();
 
             gdvClientes.DataSource = clientes;
             gdvClientes.DataBind();
         }
 
+        private void CarregarDropDownLists()
+        {
+            // Sexo
+            ddlSexo.Items.Clear();
+            ddlSexo.Items.Add(new ListItem("Selecione", ""));
+            ddlSexo.Items.Add(new ListItem("Masculino", "Masculino"));
+            ddlSexo.Items.Add(new ListItem("Feminino", "Feminino"));
+            ddlSexo.Items.Add(new ListItem("Outro", "Outro"));
+
+            // Estado civil
+            ddlEstadoCivil.Items.Clear();
+            ddlEstadoCivil.Items.Add(new ListItem("Selecione", ""));
+            ddlEstadoCivil.Items.Add(new ListItem("Solteiro(a)", "Solteiro(a)"));
+            ddlEstadoCivil.Items.Add(new ListItem("Casado(a)", "Casado(a)"));
+            ddlEstadoCivil.Items.Add(new ListItem("Divorciado(a)", "Divorciado(a)"));
+            ddlEstadoCivil.Items.Add(new ListItem("Viúvo(a)", "Viúvo(a)"));
+
+            // UF
+            ddlUf.Items.Clear();
+            ddlUf.Items.Add(new ListItem("Selecione", ""));
+            ddlUf.Items.Add(new ListItem("SP", "SP"));
+            ddlUf.Items.Add(new ListItem("RJ", "RJ"));
+            ddlUf.Items.Add(new ListItem("MG", "MG"));
+            ddlUf.Items.Add(new ListItem("BA", "BA"));
+            ddlUf.Items.Add(new ListItem("RS", "RS"));
+            ddlUf.Items.Add(new ListItem("PR", "PR"));
+        }
+
         public int Id
         {
             get
             {
-                if (ViewState["Id"] != null)
-
-                    return (int)ViewState["Id"];
-                return 0;
+                // Preferir HiddenField quando disponível para garantir persistência no postback
+                if (!string.IsNullOrWhiteSpace(hdnId.Value) && int.TryParse(hdnId.Value, out int hid))
+                    return hid;
+                return ViewState["Id"] != null ? (int)ViewState["Id"] : 0;
             }
             set
             {
                 ViewState["Id"] = value;
+                hdnId.Value = value.ToString();
             }
-
-        }
-
-        private void CarregarDropDownLists()
-        {
-
-
-            ListItem ltiSelecione = new ListItem();
-            ddlUfExpedicao.Items.Insert(0, ltiSelecione);
-
-
-            ListItem ltiSelecioneEstado = new ListItem();
-            ddlUfEstado.Items.Insert(0, ltiSelecioneEstado);
-
-            ListItem ltiSelecioneSexo = new ListItem();
-            ddlSexo.Items.Insert(0, ltiSelecioneSexo);
-
-            ListItem ltiEstadoCivil = new ListItem();
-            ddlEstadoCivil.Items.Insert(0, ltiEstadoCivil);
-
-
         }
 
         protected void btnSalvar_Click(object sender, EventArgs e)
         {
+            var ctiBr = new CultureInfo("pt-BR");
+            var cliente = new Cliente();
 
-            CultureInfo ctiBr = new CultureInfo("pt-BR");
-
-            Cliente cliente = new Cliente();
-
-
-            cliente.Nome = txtNome.Text;
-            cliente.Cpf = txtCpf.Text;
-            cliente.Rg = txtRg.Text;
-            cliente.OrgaoExpedicao = txtOrgaoExpedidor.Text;
-            cliente.UfExpedicao = ddlUfExpedicao.Text;
-            cliente.Sexo = ddlSexo.Text;
-            cliente.EstadoCivil = ddlEstadoCivil.Text;
-            cliente.DataNascimento = DateTime.Parse(txtDataNascimento.Text, ctiBr);
-            cliente.DataExpedicao = DateTime.Parse(txtDataExpedicao.Text, ctiBr);
-
-            cliente.Complemento = txtComplemento.Text;
-            cliente.Numero = txtNumero.Text;
-            cliente.Bairro = txtBairro.Text;
-            cliente.Logradouro = txtRua.Text;
-            cliente.Cep = txtCep.Text;
-            cliente.Cidade = txtCidade.Text;
-            cliente.Uf = ddlUfEstado.Text;
+            if (!Page.IsValid)
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "validationErro", "showModalMessage('Validação', 'Existem erros de validação. Verifique os campos destacados.', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
+                return;
+            }
 
             cliente.Id = Id;
+            cliente.Nome = txtNome.Text.Trim();
+            cliente.Cpf = txtCpf.Text.Trim();
+            cliente.Rg = txtRg.Text.Trim();
+            cliente.Sexo = ddlSexo.SelectedValue;
+            cliente.EstadoCivil = ddlEstadoCivil.SelectedValue;
 
-            if (cliente.Id == 0)
-            {
-                ServiceCliente serviceCliente = new ServiceCliente();
-
-                
-                int id = serviceCliente.Incluir(cliente);
-
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Registro Inserido com sucesso.');", true);
-
-                LimparCampos();
-            }
+            // Data de nascimento (obrigatória)
+            if (DateTime.TryParse(txtDataNascimento.Text, ctiBr, DateTimeStyles.None, out DateTime dataNasc))
+                cliente.DataNascimento = dataNasc;
             else
             {
-                ServiceCliente serviceCliente = new ServiceCliente();
-                serviceCliente.Alterar(cliente);
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Registro Alterado com sucesso.');", true);
+                cliente.DataNascimento = DateTime.MinValue;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "dtInvalida", "showModalMessage('Validação', 'Informe uma data de nascimento válida.', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
+                return;
+            }
+
+            // Endereço
+            cliente.Cep = txtCep.Text.Trim();
+            cliente.Logradouro = txtRua.Text.Trim();
+            cliente.Numero = txtNumero.Text.Trim();
+            cliente.Bairro = txtBairro.Text.Trim();
+            cliente.Uf = ddlUf.SelectedValue;
+
+            var serviceCliente = new ServiceCliente();
+
+            try
+            {
+                if (cliente.Id == 0)
+                {
+                    serviceCliente.Incluir(cliente);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoCad", "showModalMessage('Sucesso', 'Cliente cadastrado com sucesso!', 'success');", true);
+                }
+                else
+                {
+                    serviceCliente.Alterar(cliente);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoAlt", "showModalMessage('Sucesso', 'Cliente atualizado com sucesso!', 'success');", true);
+                }
 
                 LimparCampos();
-
+                CarregarClientes();
             }
-             
-            CarregarClientes();
+            catch (Exception ex)
+            {
+                var msg = ex.Message.Replace("'", "\u0027");
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "erroSalvar", $"showModalMessage('Erro', 'Erro ao salvar: {msg}', 'error'); var m=new bootstrap.Modal(document.getElementById('clienteModal')); m.show();", true);
+            }
         }
 
         private void LimparCampos()
@@ -119,207 +136,78 @@ namespace GET.WebForms
             txtNome.Text = "";
             txtCpf.Text = "";
             txtRg.Text = "";
-            txtOrgaoExpedidor.Text = "";
-            ddlUfExpedicao.Text = "";
-            ddlSexo.Text = "";
-            ddlEstadoCivil.Text = "";
+            ddlSexo.SelectedIndex = 0;
+            ddlEstadoCivil.SelectedIndex = 0;
             txtDataNascimento.Text = "";
-            txtDataExpedicao.Text = "";
-
-            txtComplemento.Text = "";
+            txtCep.Text = "";
+            txtRua.Text = "";
             txtNumero.Text = "";
             txtBairro.Text = "";
-            txtRua.Text = "";
-            txtCep.Text = "";
-            txtCidade.Text = "";
-            ddlUfEstado.Text = "";
+            ddlUf.SelectedIndex = 0;
+            Id = 0;
         }
 
         protected void gdvClientes_RowCommand1(object sender, GridViewCommandEventArgs e)
         {
-
-            CultureInfo ctiBr = new CultureInfo("pt-BR");
-
-
-            ServiceCliente serviceCliente = new ServiceCliente();
+            var serviceCliente = new ServiceCliente();
+            var ctiBr = new CultureInfo("pt-BR");
 
             if (e.CommandName == "Editar")
             {
                 Id = Convert.ToInt32(e.CommandArgument);
-                int ClienteId = Convert.ToInt32(e.CommandArgument);
+                var cliente = serviceCliente.Obter(Id);
 
-                Cliente cliente = serviceCliente.Obter(ClienteId);
+                if (cliente != null)
+                {
+                    txtNome.Text = cliente.Nome;
+                    txtCpf.Text = cliente.Cpf;
+                    txtRg.Text = cliente.Rg;
 
-                CamposHabilitados();
+                    // Garantir itens antes de selecionar valores vindos do banco
+                    EnsureListItem(ddlSexo, cliente.Sexo);
+                    EnsureListItem(ddlEstadoCivil, cliente.EstadoCivil);
+                    EnsureListItem(ddlUf, cliente.Uf);
 
-                txtNomeDetalhes.Text = cliente.Nome;
-                txtCpfDetalhes.Text = cliente.Cpf;
-                txtRgDetalhes.Text = cliente.Rg;
-                txtOrgaoExpedidorDetalhes.Text = cliente.OrgaoExpedicao;
-                txtUfExpedidorDetalhes.Text = cliente.UfExpedicao;
-                txtSexoDetalhes.Text = cliente.Sexo;
-                txtEstadoCivilDetalhes.Text = cliente.EstadoCivil;
-                txtDataNascimentoDetalhes.Text = cliente.DataNascimento.ToString("d", ctiBr);
-                txtDataExpedicaoDetalhes.Text = cliente.DataExpedicao.ToString("d", ctiBr);
-                txtRuaDetalhes.Text = cliente.Logradouro;
-                txtComplementoDetalhes.Text = cliente.Complemento;
-                txtNumeroDetalhes.Text = cliente.Numero;
-                txtBairroDetalhes.Text = cliente.Bairro;
-                txtCepDetalhes.Text = cliente.Cep;
-                txtCidadeDetalhes.Text = cliente.Cidade;
-                txtUfDetalhes.Text = cliente.Uf;
+                    ddlSexo.SelectedValue = cliente.Sexo ?? string.Empty;
+                    ddlEstadoCivil.SelectedValue = cliente.EstadoCivil ?? string.Empty;
+                    txtDataNascimento.Text = cliente.DataNascimento != DateTime.MinValue ? cliente.DataNascimento.ToString("yyyy-MM-dd") : string.Empty;
+                    txtCep.Text = cliente.Cep;
+                    txtRua.Text = cliente.Logradouro;
+                    txtNumero.Text = cliente.Numero;
+                    txtBairro.Text = cliente.Bairro;
+                    ddlUf.SelectedValue = cliente.Uf ?? string.Empty;
 
-                panelDetalhes.Visible = true;
-                panelCadastroCliente.Visible = false;
-                btnSalvarAlteracao.Visible = true;
-
-
-
+                    // Abrir modal de edição no front-end
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openClienteModal", "var m=new bootstrap.Modal(document.getElementById('clienteModal'));m.show();", true);
+                }
             }
 
             if (e.CommandName == "Excluir")
             {
                 Id = Convert.ToInt32(e.CommandArgument);
                 serviceCliente.Excluir(Id);
-
-                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "alerta", "alert('Dados Excluidos com sucesso.');", true);
-                Response.Redirect("Default.aspx");
-            }
-
-            if (e.CommandName == "Detalhes")
-            {
-                Id = Convert.ToInt32(e.CommandArgument);
-                int ClienteId = Convert.ToInt32(e.CommandArgument);
-
-                //PanelCadastroVisivel(true);
-                Cliente cliente = serviceCliente.Obter(ClienteId);
-
-                CamposDesabilitados();
-
-                txtNomeDetalhes.Text = cliente.Nome;
-                txtCpfDetalhes.Text = cliente.Cpf;
-                txtRgDetalhes.Text = cliente.Rg;
-                txtOrgaoExpedidorDetalhes.Text = cliente.OrgaoExpedicao;
-                txtUfExpedidorDetalhes.Text = cliente.UfExpedicao;
-                txtSexoDetalhes.Text = cliente.Sexo;
-                txtEstadoCivilDetalhes.Text = cliente.EstadoCivil;
-                txtDataNascimentoDetalhes.Text = cliente.DataNascimento.ToString("d", ctiBr);
-                txtDataExpedicaoDetalhes.Text = cliente.DataExpedicao.ToString("d", ctiBr);
-                txtRuaDetalhes.Text = cliente.Logradouro;
-                txtComplementoDetalhes.Text = cliente.Complemento;
-                txtNumeroDetalhes.Text = cliente.Numero;
-                txtBairroDetalhes.Text = cliente.Bairro;
-                txtCepDetalhes.Text = cliente.Cep;
-                txtCidadeDetalhes.Text = cliente.Cidade;
-                txtUfDetalhes.Text = cliente.Uf;
-
-                panelDetalhes.Visible = true;
-                panelCadastroCliente.Visible = false;
-                btnSalvarAlteracao.Visible = false;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "sucessoDel", "showModalMessage('Sucesso', 'Cliente excluído com sucesso!', 'success');", true);
+                CarregarClientes();
             }
         }
 
-        private void CamposDesabilitados()
+        protected void btnNovo_Click(object sender, EventArgs e)
         {
-            txtNomeDetalhes.Enabled = false;
-            txtNomeDetalhes.BackColor = System.Drawing.Color.LightGray;
-            txtCpfDetalhes.Enabled = false;
-            txtCpfDetalhes.BackColor = System.Drawing.Color.LightGray;
-            txtRgDetalhes.Enabled = false;
-            txtRgDetalhes.BackColor = System.Drawing.Color.LightGray;
-            txtOrgaoExpedidorDetalhes.BackColor = System.Drawing.Color.LightGray;
-            txtOrgaoExpedidorDetalhes.Enabled = false;
-            txtUfExpedidorDetalhes.Enabled = false;
-            txtUfExpedidorDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtSexoDetalhes.Enabled = false;
-            txtSexoDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtEstadoCivilDetalhes.Enabled = false;
-            txtEstadoCivilDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-
-            txtDataNascimentoDetalhes.Enabled = false;
-            txtDataNascimentoDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtDataExpedicaoDetalhes.Enabled = false;
-            txtDataExpedicaoDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtRuaDetalhes.Enabled = false;
-            txtRuaDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtComplementoDetalhes.Enabled = false;
-            txtComplementoDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtNumeroDetalhes.Enabled = false;
-            txtNumeroDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtBairroDetalhes.Enabled = false;
-            txtBairroDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtCepDetalhes.Enabled = false;
-            txtCepDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtCidadeDetalhes.Enabled = false;
-            txtCidadeDetalhes.BackColor = System.Drawing.Color.LightGray;
-
-            txtUfDetalhes.Enabled = false;
-            txtUfDetalhes.BackColor = System.Drawing.Color.LightGray;
-        }
-        private void CamposHabilitados()
-        {
-            txtNomeDetalhes.Enabled = true;
-            txtNomeDetalhes.BackColor = System.Drawing.Color.White;
-            txtCpfDetalhes.Enabled = true;
-            txtCpfDetalhes.BackColor = System.Drawing.Color.White;
-            txtRgDetalhes.Enabled = true;
-            txtRgDetalhes.BackColor = System.Drawing.Color.White;
-            txtOrgaoExpedidorDetalhes.BackColor = System.Drawing.Color.White;
-            txtOrgaoExpedidorDetalhes.Enabled = true;
-            txtUfExpedidorDetalhes.Enabled = true;
-            txtUfExpedidorDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtSexoDetalhes.Enabled = true;
-            txtSexoDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtEstadoCivilDetalhes.Enabled = true;
-            txtEstadoCivilDetalhes.BackColor = System.Drawing.Color.White;
-
-
-            txtDataNascimentoDetalhes.Enabled = true;
-            txtDataNascimentoDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtDataExpedicaoDetalhes.Enabled = true;
-            txtDataExpedicaoDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtRuaDetalhes.Enabled = true;
-            txtRuaDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtComplementoDetalhes.Enabled = true;
-            txtComplementoDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtNumeroDetalhes.Enabled = true;
-            txtNumeroDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtBairroDetalhes.Enabled = true;
-            txtBairroDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtCepDetalhes.Enabled = true;
-            txtCepDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtCidadeDetalhes.Enabled = true;
-            txtCidadeDetalhes.BackColor = System.Drawing.Color.White;
-
-            txtUfDetalhes.Enabled = true;
-            txtUfDetalhes.BackColor = System.Drawing.Color.White;
-        }
-
-        protected void txtVoltar_Click(object sender, EventArgs e)
-        {
-            panelDetalhes.Visible = false;
-            panelCadastroCliente.Visible = true;
             LimparCampos();
+            // Garante estado de novo cadastro
+            Id = 0;
+            // Abre o modal de cliente
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openNovoCliente", "var m=new bootstrap.Modal(document.getElementById('clienteModal'));m.show();", true);
         }
 
+        private static void EnsureListItem(ListControl list, string value)
+        {
+            if (list == null) return;
+            var val = value ?? string.Empty;
+            if (list.Items.FindByValue(val) == null)
+            {
+                list.Items.Add(new ListItem(val, val));
+            }
+        }
     }
 }

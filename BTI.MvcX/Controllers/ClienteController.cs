@@ -12,12 +12,12 @@ namespace BTI.MvcX.Controllers
 {
     public class ClienteController : Controller
     {
-        private readonly string apiUrl;
+        private readonly string apiBaseUrl;
 
         public ClienteController()
         {
-            // Obtém a URL da API do Web.config ou usa valor padrão
-            apiUrl = ConfigurationManager.AppSettings["ApiUrl"] ?? "http://localhost:55812/api/cliente";
+            // Base da API (host). Endpoints estão definidos por atributos como "cliente-get".
+            apiBaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"] ?? "http://localhost:55812";
         }
 
         // GET: Cliente/Home
@@ -36,7 +36,7 @@ namespace BTI.MvcX.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var response = await httpClient.GetAsync(apiUrl + "/cliente-get");
+                    var response = await httpClient.GetAsync($"{apiBaseUrl}/cliente-get");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -58,9 +58,9 @@ namespace BTI.MvcX.Controllers
             }
         }
 
-        // GET: Cliente/GetCliente/5
+        // GET: Cliente/Detalhes/5
         [HttpGet]
-        public async Task<ActionResult> GetCliente(int id)
+        public async Task<ActionResult> Detalhes(int id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace BTI.MvcX.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var response = await httpClient.GetAsync($"{apiUrl}/cliente-get{id}");
+                    var response = await httpClient.GetAsync($"{apiBaseUrl}/cliente-get{id}");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -88,7 +88,7 @@ namespace BTI.MvcX.Controllers
                     return HttpNotFound();
                 }
 
-                return View(cliente);
+                return View("Detalhes", cliente);
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace BTI.MvcX.Controllers
         [HttpGet]
         public ActionResult Adicionar()
         {
-            return View(new Cliente());
+            return View("Form", new Cliente());
         }
 
         // POST: Cliente/AddCliente
@@ -113,7 +113,7 @@ namespace BTI.MvcX.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View("Adicionar", cliente);
+                    return View("Form", cliente);
                 }
 
                 using (var httpClient = new HttpClient())
@@ -125,12 +125,12 @@ namespace BTI.MvcX.Controllers
                         "application/json"
                     );
 
-                    var response = await httpClient.PostAsync(apiUrl + "/cliente-post", jsonContent);
+                    var response = await httpClient.PostAsync($"{apiBaseUrl}/cliente-post", jsonContent);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        ViewBag.Success = "Cliente adicionado com sucesso!";
+                        TempData["ToastMessage"] = "Cliente adicionado com sucesso!";
+                        TempData["ToastVariant"] = "success";
                         return RedirectToAction("Index");
                     }
                     else
@@ -139,12 +139,12 @@ namespace BTI.MvcX.Controllers
                     }
                 }
 
-                return View("Adicionar", cliente);
+                return View("Form", cliente);
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Erro ao comunicar com a API: " + ex.Message;
-                return View("Adicionar", cliente);
+                return View("Form", cliente);
             }
         }
 
@@ -159,7 +159,7 @@ namespace BTI.MvcX.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var response = await httpClient.GetAsync($"{apiUrl}/cliente-get{id}");
+                    var response = await httpClient.GetAsync($"{apiBaseUrl}/cliente-get{id}");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -178,7 +178,7 @@ namespace BTI.MvcX.Controllers
                     return HttpNotFound();
                 }
 
-                return View(cliente);
+                return View("FormAlterar", cliente);
             }
             catch (Exception ex)
             {
@@ -208,11 +208,12 @@ namespace BTI.MvcX.Controllers
                         "application/json"
                     );
 
-                    var response = await httpClient.PutAsync($"{apiUrl}/cliente-Put{cliente.Id}", jsonContent);
+                    var response = await httpClient.PutAsync($"{apiBaseUrl}/cliente-Put{cliente.Id}", jsonContent);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        ViewBag.Success = "Cliente atualizado com sucesso!";
+                        TempData["ToastMessage"] = "Cliente atualizado com sucesso!";
+                        TempData["ToastVariant"] = "success";
                         return RedirectToAction("Index");
                     }
                     else
@@ -221,12 +222,12 @@ namespace BTI.MvcX.Controllers
                     }
                 }
 
-                return View(cliente);
+                return View("FormAlterar", cliente);
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Erro ao comunicar com a API: " + ex.Message;
-                return View(cliente);
+                return View("FormAlterar", cliente);
             }
         }
 
@@ -241,7 +242,7 @@ namespace BTI.MvcX.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var response = await httpClient.GetAsync($"{apiUrl}/cliente-get{id}");
+                    var response = await httpClient.GetAsync($"{apiBaseUrl}/cliente-get{id}");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -256,7 +257,7 @@ namespace BTI.MvcX.Controllers
                     return HttpNotFound();
                 }
 
-                return View(cliente);
+                return View("FormExcluir", cliente);
             }
             catch (Exception ex)
             {
@@ -284,7 +285,7 @@ namespace BTI.MvcX.Controllers
                         "application/json"
                     );
 
-                    var request = new HttpRequestMessage(HttpMethod.Delete, $"{apiUrl}/cliente-delete{id}")
+                    var request = new HttpRequestMessage(HttpMethod.Delete, $"{apiBaseUrl}/cliente-delete{id}")
                     {
                         Content = jsonContent
                     };
@@ -293,7 +294,8 @@ namespace BTI.MvcX.Controllers
 
                     if (response.IsSuccessStatusCode)
                     {
-                        ViewBag.Success = "Cliente excluído com sucesso!";
+                        TempData["ToastMessage"] = "Cliente excluído com sucesso!";
+                        TempData["ToastVariant"] = "success";
                         return RedirectToAction("Index");
                     }
                     else

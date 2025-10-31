@@ -1,33 +1,55 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Início";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+<section class="page-hero mt-4 mb-5">
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+        <div>
+            <h2 class="page-title mb-1">BTI.MvcX</h2>
+            <p class="page-subtitle mb-0">Gerencie clientes de forma simples e moderna.</p>
+        </div>
+        <div>
+            <a href="@Url.Action("Index","Cliente")" class="btn btn-light btn-lg">Ir para Clientes</a>
+        </div>
     </div>
-</main>
+</section>
+
+<div class="row gy-4">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Clientes</h5>
+                <p class="card-text">Listar, cadastrar, editar e excluir clientes.</p>
+                <a href="@Url.Action("Index","Cliente")" class="btn btn-outline-primary">Abrir</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Relatórios</h5>
+                <p class="card-text">(Em breve) Acompanhe métricas e exporte dados.</p>
+                <a href="#" class="btn btn-outline-secondary" tabindex="-1" aria-disabled="true">Em breve</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Configurações</h5>
+                <p class="card-text">(Em breve) Preferências e integrações.</p>
+                <a href="#" class="btn btn-outline-secondary" tabindex="-1" aria-disabled="true">Em breve</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-hero{
+        background: linear-gradient(90deg, rgba(29,78,216,.9) 0%, rgba(37,99,235,.9) 60%, rgba(59,130,246,.9) 100%);
+        color:#fff; padding:28px 24px; border-radius:.75rem;
+        box-shadow:0 12px 28px rgba(2,6,23,.12);
+    }
+    .page-title{ font-weight:700; letter-spacing:.2px; }
+    .page-subtitle{ opacity:.9; }
+</style>

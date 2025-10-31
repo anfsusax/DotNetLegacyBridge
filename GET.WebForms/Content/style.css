@@ -5,3 +5,58 @@
 .search{
     width: 18px;
 }
+
+/* Modern theme and layout polish */
+:root{
+    --bs-primary: #2563eb; /* blue-600 */
+    --bs-primary-rgb: 37,99,235;
+    --bs-secondary: #475569; /* slate-600 */
+    --bs-success: #16a34a; /* green-600 */
+    --bs-danger: #dc2626;  /* red-600 */
+}
+
+.bg-gradient-primary{
+    background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 50%, #3b82f6 100%);
+}
+
+.shadow-soft{
+    box-shadow: 0 10px 30px rgba(2,6,23,.08), 0 4px 10px rgba(2,6,23,.06);
+    border-radius: .5rem;
+}
+
+.navbar-dark.bg-dark{
+    background: linear-gradient(90deg, #0b1220 0%, #0f172a 50%, #111827 100%) !important;
+}
+
+.table{
+    margin-bottom: 0;
+}
+
+.table thead th{
+    white-space: nowrap;
+}
+
+.table td, .table th{
+    vertical-align: middle;
+}
+
+/* Modal polish */
+.modal-enhanced{ box-shadow: 0 20px 60px rgba(2,6,23,.18); }
+.modal-enhanced .modal-header{ border-bottom: 0; padding: 16px 20px; }
+.modal-enhanced .modal-body{ padding: 20px; }
+.modal-enhanced .modal-footer{ border-top: 0; padding: 16px 20px; }
+.modal-content.rounded-4{ border-radius: 1rem !important; }
+.form-section-title{ text-transform: uppercase; font-size: .75rem; letter-spacing: .08em; }
+.form-label{ font-size: .92rem; }
+.form-control, .form-select{ min-height: 42px; }
+
+/* Hero header */
+.page-hero{
+    background: linear-gradient(90deg, rgba(29,78,216,.9) 0%, rgba(37,99,235,.9) 60%, rgba(59,130,246,.9) 100%), url('../Content/img/heroAccent.png');
+    color: #fff;
+    padding: 28px 24px;
+    border-radius: .75rem;
+    box-shadow: 0 12px 28px rgba(2,6,23,.12);
+}
+.page-title{ font-weight: 700; letter-spacing: .2px; }
+.page-subtitle{ opacity: .9; }

@@ -4,142 +4,57 @@
     ViewBag.Title = "Detalhes";
 }
 
-<h2>Detalhes</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cpf)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cpf)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Rg)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Rg)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OrgaoExpedicao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrgaoExpedicao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UfExpedicao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UfExpedicao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sexo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sexo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EstadoCivil)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EstadoCivil)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataExpedicao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataExpedicao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Logradouro)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Logradouro)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Complemento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Complemento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Numero)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Numero)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Bairro)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Bairro)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cep)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cep)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cidade)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cidade)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Uf)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Uf)
-        </dd>
-
-    </dl>
+<div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+    <h2 class="m-0">Detalhes do Cliente</h2>
+    <div>
+        <a href="@Url.Action("FormAlterar","Cliente", new { id = Model.Id })" class="btn btn-outline-primary me-1">Editar</a>
+        <a href="@Url.Action("Index","Cliente")" class="btn btn-outline-secondary">Voltar</a>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Alterar dados", "FormAlterar", new { id = Model.Id }) |
-    @Html.ActionLink("Voltar", "Index")
-</p>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="border rounded p-3">
+                    <h6 class="text-secondary">Dados Pessoais</h6>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Nome)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Nome)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Cpf)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Cpf)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Rg)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Rg)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Sexo)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Sexo)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.EstadoCivil)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.EstadoCivil)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.DataNascimento)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.DataNascimento)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.DataExpedicao)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.DataExpedicao)</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="border rounded p-3">
+                    <h6 class="text-secondary">Endereço</h6>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Cep)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Cep)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Logradouro)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Logradouro)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Numero)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Numero)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Bairro)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Bairro)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Cidade)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Cidade)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Uf)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Uf)</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
