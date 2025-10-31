@@ -1,6 +1,6 @@
 ﻿/* Set padding to keep content from hitting the edges */
 .body-content {
-    margin-top: 15px;
+    margin-top: 24px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -16,5 +16,31 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 100%;
 }
+
+/* Modern theme polish */
+:root{
+    --brand-start:#0ea5e9; /* cyan-500 */
+    --brand-end:#6366f1;   /* indigo-500 */
+}
+
+.app-navbar{
+    background: linear-gradient(90deg, var(--brand-start) 0%, var(--brand-end) 100%) !important;
+}
+
+.card{ border-radius: .75rem; box-shadow: 0 10px 30px rgba(2,6,23,.08), 0 4px 10px rgba(2,6,23,.06); }
+.table{ margin-bottom:0; }
+.table thead th{ white-space:nowrap; }
+.table td, .table th{ vertical-align:middle; }
+
+/* Dark mode tweaks */
+html[data-bs-theme="dark"] .card{ box-shadow:none; }
+
+/* Typography */
+body{ font-feature-settings: "ss01" on; }
+.navbar-brand{ letter-spacing:.3px; }
+.nav-link.active{ font-weight:600; }
+
+/* Footer */
+footer{ background-color: rgba(0,0,0,.02); }

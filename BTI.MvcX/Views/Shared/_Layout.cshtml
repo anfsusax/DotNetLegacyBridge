@@ -9,29 +9,34 @@
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+    @{ Func<string, string> isActive = (ctrl) => string.Equals((string)ViewContext.RouteData.Values["controller"], ctrl, StringComparison.OrdinalIgnoreCase) ? " active" : string.Empty; }
+    <nav class="navbar navbar-expand-lg navbar-dark app-navbar fixed-top shadow-lg">
         <div class="container">
-            @Html.ActionLink("BTI.MvcX", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("BTI.MvcX", "Index", "Home", new { area = "" }, new { @class = "navbar-brand fw-semibold" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#mainNav" title="Alternar a navegação" aria-controls="mainNav"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">@Html.ActionLink("Início", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Início", "Index", "Home", new { area = "" }, new { @class = "nav-link px-3" + isActive("Home") })</li>
+                    <li class="nav-item">@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, new { @class = "nav-link px-3" + isActive("Cliente") })</li>
+                    <li class="nav-item"><button type="button" class="btn btn-sm btn-light ms-lg-3" id="themeToggle">Tema</button></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content pt-4">
-        @RenderBody()
-        <hr />
-        <footer class="d-flex justify-content-between align-items-center py-3 small text-muted">
-            <span>&copy; @DateTime.Now.Year - BTI.MvcX</span>
-            <span class="opacity-75">MVC</span>
+    <main class="app-main d-flex flex-column min-vh-100">
+        <div class="container body-content pt-4 flex-grow-1">
+            @RenderBody()
+        </div>
+        <footer class="mt-auto border-top">
+            <div class="container d-flex justify-content-between align-items-center py-4 small text-muted">
+                <span>&copy; @DateTime.Now.Year - BTI.MvcX</span>
+                <span class="opacity-75">MVC</span>
+            </div>
         </footer>
-    </div>
+    </main>
 
     <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
         <div id="appToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -59,6 +64,15 @@
             var t = new bootstrap.Toast(el);
             t.show();
         };
+        (function(){
+            var btn = document.getElementById('themeToggle');
+            if(!btn) return;
+            btn.addEventListener('click', function(){
+                var html = document.documentElement;
+                var isDark = html.getAttribute('data-bs-theme') === 'dark';
+                html.setAttribute('data-bs-theme', isDark ? 'light' : 'dark');
+            });
+        })();
     </script>
     @if (TempData["ToastMessage"] != null) {
         <script>
