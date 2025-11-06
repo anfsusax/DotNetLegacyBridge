@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace GTI.Wcf
 {
-    // OBSERVAÇÃO: Você pode usar o comando "Renomear" no menu "Refatorar" para alterar o nome da classe "ServiceCliente" no arquivo de código, svc e configuração ao mesmo tempo.
-    // OBSERVAÇÃO: Para iniciar o cliente de teste do WCF para testar esse serviço, selecione ServiceCliente.svc ou ServiceCliente.svc.cs no Gerenciador de Soluções e inicie a depuração.
     public class ServiceCliente : IServiceCliente
     {
         public List<Cliente> Listar()
@@ -21,7 +19,7 @@ namespace GTI.Wcf
         public int Incluir(Cliente cliente)
         {
             ClienteBL clienteBL = new ClienteBL();
-            return clienteBL.Iserir(cliente);
+            return clienteBL.Inserir(cliente);
         }
         public void Excluir(int id)
         {

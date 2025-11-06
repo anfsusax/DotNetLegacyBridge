@@ -7,7 +7,6 @@ using System.Text;
 
 namespace GTI.Wcf
 {
-    // OBSERVAÇÃO: Você pode usar o comando "Renomear" no menu "Refatorar" para alterar o nome da interface "IService1" no arquivo de código e configuração ao mesmo tempo.
     [ServiceContract]
     public interface IService1
     {

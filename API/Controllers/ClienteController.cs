@@ -11,7 +11,6 @@ namespace API.Controllers
 {
     public class ClienteController : ApiController
     {
-        // GET cliente-get
         public IEnumerable<Cliente> Get()
         {
             var service = new ServiceCliente();
@@ -20,14 +19,12 @@ namespace API.Controllers
             return clientes;
         }
 
-        // GET cliente-get{id}
         public Cliente Get(int id)
         {
             var service = new ServiceCliente();
             return service.Obter(id);
         }
 
-        // POST cliente-post
         public HttpResponseMessage Post([System.Web.Http.FromBody]Cliente cliente)
         {
             var service = new ServiceCliente();
@@ -39,7 +36,6 @@ namespace API.Controllers
             return response;
         }
 
-        // PUT cliente-Put{id}
         public HttpResponseMessage Put(int id, [System.Web.Http.FromBody]Cliente cliente)
         {
             var service = new ServiceCliente();
@@ -55,13 +51,7 @@ namespace API.Controllers
             return response;
         }
 
-        // DELETE cliente-delete{id}
-        /// <summary>
-        ///DELETE
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public HttpResponseMessage Delete(int id, [System.Web.Http.FromBody]Cliente cliente)
+        public HttpResponseMessage Delete(int id)
         {
             var service = new ServiceCliente();
             service.Excluir(id);
