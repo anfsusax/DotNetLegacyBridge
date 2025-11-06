@@ -8,7 +8,7 @@
     <h2 class="m-0">Editar Cliente</h2>
     <a href="@Url.Action("Index","Cliente")" class="btn btn-outline-secondary">Voltar</a>
 </div>
-@using (Html.BeginForm("UpdateCliente","Cliente", FormMethod.Post))
+@using (Html.BeginForm("UpdateCliente", "Cliente", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)

@@ -194,10 +194,7 @@ namespace BTI.MvcX.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(cliente);
-                }
+                
 
                 using (var httpClient = new HttpClient())
                 {
