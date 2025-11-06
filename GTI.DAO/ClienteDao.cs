@@ -55,7 +55,7 @@ namespace GTI.DAO
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@ClienteID", cliente.Id);
+                    cmd.Parameters.AddWithValue("@Id", cliente.Id);
                     cmd.Parameters.AddWithValue("@Nome", cliente.Nome ?? string.Empty);
                     cmd.Parameters.AddWithValue("@Cpf", cliente.Cpf ?? string.Empty);
                     cmd.Parameters.AddWithValue("@Rg", cliente.Rg ?? string.Empty);
@@ -89,7 +89,7 @@ namespace GTI.DAO
                 using (SqlCommand cmd = new SqlCommand("sp_DeleteCliente", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ClienteID", id);
+                    cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -147,7 +147,7 @@ namespace GTI.DAO
             using (SqlCommand cmd = new SqlCommand("sp_GetClienteId", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ClienteID", id);
+                cmd.Parameters.AddWithValue("@Id", id);
                 con.Open();
 
                 using (SqlDataReader reader = cmd.ExecuteReader())

@@ -19,14 +19,12 @@ namespace BTI.MvcX.Controllers
             // Base da API (host). Endpoints estão definidos por atributos como "cliente-get".
             apiBaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"] ?? "http://localhost:55812";
         }
-
-        // GET: Cliente/Home
+         
         public ActionResult Home()
         {
             return View();
         }
-
-        // GET: Cliente
+         
         public async Task<ActionResult> Index()
         {
             try
@@ -57,8 +55,7 @@ namespace BTI.MvcX.Controllers
                 return View(new List<Cliente>());
             }
         }
-
-        // GET: Cliente/Detalhes/5
+         
         [HttpGet]
         public async Task<ActionResult> Detalhes(int id)
         {
@@ -96,15 +93,13 @@ namespace BTI.MvcX.Controllers
                 return View(new Cliente());
             }
         }
-
-        // GET: Cliente/Adicionar
+         
         [HttpGet]
         public ActionResult Adicionar()
         {
             return View("Form", new Cliente());
         }
-
-        // POST: Cliente/AddCliente
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddCliente(Cliente cliente)
@@ -147,8 +142,7 @@ namespace BTI.MvcX.Controllers
                 return View("Form", cliente);
             }
         }
-
-        // GET: Cliente/UpdateCliente/5
+         
         [HttpGet]
         public async Task<ActionResult> UpdateCliente(int id)
         {
@@ -186,18 +180,14 @@ namespace BTI.MvcX.Controllers
                 return View(new Cliente());
             }
         }
-
-        // POST: Cliente/UpdateCliente
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> UpdateCliente(Cliente cliente)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return View(cliente);
-                }
+                
 
                 using (var httpClient = new HttpClient())
                 {
@@ -230,8 +220,7 @@ namespace BTI.MvcX.Controllers
                 return View("FormAlterar", cliente);
             }
         }
-
-        // GET: Cliente/Delete/5
+         
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
@@ -265,8 +254,7 @@ namespace BTI.MvcX.Controllers
                 return View(new Cliente());
             }
         }
-
-        // POST: Cliente/DeleteConfirmed/5
+         
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Delete")]
@@ -277,8 +265,7 @@ namespace BTI.MvcX.Controllers
                 using (var httpClient = new HttpClient())
                 {
                     httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    
-                    // A API espera um body mesmo no DELETE, então usamos SendAsync
+                     
                     var jsonContent = new StringContent(
                         JsonConvert.SerializeObject(cliente ?? new Cliente { Id = id }),
                         Encoding.UTF8,

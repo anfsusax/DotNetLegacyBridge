@@ -177,7 +177,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Cliente\Adicionar.cshtml" />
-    <Content Include="Views\Cliente\Atualizar.cshtml" />
+    <Content Include="Views\Cliente\UpdateCliente.cshtml" />
     <Content Include="Views\Cliente\Detalhes.cshtml" />
     <Content Include="Views\Cliente\Excluir.cshtml" />
     <Content Include="Views\Cliente\Form.cshtml" />

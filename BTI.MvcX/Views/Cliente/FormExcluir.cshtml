@@ -20,7 +20,7 @@
             <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Nome)</dt>
             <dd class="col-sm-9">@Html.DisplayFor(m => m.Nome)</dd>
         </dl>
-        @using (Html.BeginForm("Excluir", "Cliente", new { id = Model.Id }, FormMethod.Post))
+        @using (Html.BeginForm("Delete", "Cliente", new { id = Model.Id }, FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="d-flex justify-content-end gap-2">
