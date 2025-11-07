@@ -15,8 +15,7 @@ namespace BTI.MvcX.Controllers
         private readonly string apiBaseUrl;
 
         public ClienteController()
-        {
-            // Base da API (host). Endpoints estão definidos por atributos como "cliente-get".
+        { 
             apiBaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"] ?? "http://localhost:55812";
         }
          

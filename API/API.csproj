@@ -365,7 +365,7 @@
       <Name>GTI.BL</Name>
     </ProjectReference>
     <ProjectReference Include="..\GTI.Wcf\GTI.Wcf.csproj">
-      <Project>{00000000-0000-0000-0000-000000000000}</Project>
+      <Project>{0bd2e39f-0a1f-4225-9092-dcc42904e74a}</Project>
       <Name>GTI.Wcf</Name>
     </ProjectReference>
   </ItemGroup>
