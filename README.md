@@ -2,8 +2,11 @@
 
 ## 📋 Visão Geral
 
-O GTI2 é um sistema de gestão empresarial desenvolvido em .NET Framework que integra diferentes tecnologias e padrões de arquitetura. O projeto combina WebForms legado com APIs modernas, seguindo uma arquitetura em camadas para separação de responsabilidades.
+O GTI2 é um sistema de gestão empresarial originalmente desenvolvido como um projeto de teste recebido da empresa GTI, com o objetivo de avaliar minhas habilidades técnicas. Ao invés de apenas concluí-lo como um exercício, decidi aprofundar-me no projeto, reestruturando-o como uma base de estudo prática para desenvolvedores em formação.
 
+Inicialmente construído em .NET Framework, o sistema combina WebForms legado com APIs modernas (RESTful), adotando uma arquitetura em camadas bem definida para garantir separação de responsabilidades, manutenibilidade e escalabilidade. Ao longo do tempo, implementei melhorias significativas — como refatoração de código, introdução de padrões de design, tratamento de erros robusto e documentação técnica — transformando o projeto em um laboratório vivo para aprendizado, voltado especialmente para estudantes que desejam compreender a evolução de sistemas legados em ambientes reais.
+
+Hoje, o GTI2 serve como referência prática para quem deseja aprender a lidar com tecnologias herdadas, modernização de sistemas e arquitetura híbrida, sem perder o foco na qualidade e na boas práticas de desenvolvimento.
 ## 🏗️ Estrutura do Projeto
 
 O projeto está organizado nas seguintes camadas e componentes principais:
